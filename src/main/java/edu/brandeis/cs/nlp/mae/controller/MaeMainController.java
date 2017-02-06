@@ -71,6 +71,7 @@ public class MaeMainController extends JPanel {
     private MaeMainView view;
     private Timer temporaryNotificationTimer;
 
+    private ToolBarController toolBar;
     private StatusBarController statusBar;
     private TextPanelController textPanel;
     private TablePanelController tablePanel;
@@ -111,6 +112,7 @@ public class MaeMainController extends JPanel {
             menu = new MenuController(this);
             textPanel = new TextPanelController(this);
             tablePanel = new TablePanelController(this);
+            toolBar = new ToolBarController(this);
             statusBar = new StatusBarController(this);
             dialogs = new DialogController(this);
             coloredTagsInLastDocument = new HashMap<>();
@@ -150,7 +152,7 @@ public class MaeMainController extends JPanel {
     public JFrame initUI() {
         logger.debug("initiating UI components.");
 
-        view = new MaeMainView(menu.getView(), textPanel.getView(), statusBar.getView(), tablePanel.getView());
+        view = new MaeMainView(menu.getView(), textPanel.getView(), statusBar.getView(), tablePanel.getView(), toolBar.getView());
         return view;
     }
 
@@ -319,6 +321,11 @@ public class MaeMainController extends JPanel {
         return statusBar;
     }
 
+    // ##ES: the ToolBar
+    public ToolBarController getToolBar() {
+      return toolBar;
+    }
+
     public MaeDriverI getDriver() {
         return currentDriver;
     }
@@ -433,6 +440,8 @@ public class MaeMainController extends JPanel {
             mode = MODE_ARG_SEL;
             sendNotification(MaeStrings.SB_ARGSEL_MODE_NOTI);
             getMenu().resetModeMenu();
+            // ##ES: Update ToolBar
+            getToolBar().updateButtons();
         }
     }
 
@@ -443,6 +452,8 @@ public class MaeMainController extends JPanel {
             mode = MODE_MULTI_SPAN;
             sendNotification(MaeStrings.SB_MSPAN_MODE_NOTI);
             getMenu().resetModeMenu();
+            // ##ES: Update ToolBar
+            getToolBar().updateButtons();
         }
     }
 
@@ -475,6 +486,8 @@ public class MaeMainController extends JPanel {
             removeAllBGColors();
             getMenu().resetFileMenu();
             getMenu().resetModeMenu();
+            // ##ES: Update ToolBar
+            getToolBar().updateButtons();
             sendNotification(MaeStrings.SB_NORM_MODE_NOTI);
         }
     }
@@ -491,6 +504,8 @@ public class MaeMainController extends JPanel {
                 assignAllFGColor();
                 sendNotification(MaeStrings.SB_NORM_MODE_NOTI);
                 getMenu().resetFileMenu();
+                // ##ES: Update ToolBar
+                getToolBar().updateButtons();
             } catch (MaeException e) {
                 showError(e);
             }
@@ -615,6 +630,8 @@ public class MaeMainController extends JPanel {
                             getMenu().resetFileMenu();
                             getMenu().resetTagsMenu();
                             getMenu().resetModeMenu();
+                            // ##ES: Update ToolBar
+                            getToolBar().updateButtons();
                         }
                         adjustUIPlusTaskAddAnnotation();
                     } else {
@@ -688,6 +705,8 @@ public class MaeMainController extends JPanel {
             setAdjudicating(false);
             getMenu().resetFileMenu();
             getMenu().resetModeMenu();
+            // ##ES: Update ToolBar
+            getToolBar().updateButtons();
             getTextPanel().noDocumentGuide();
             getMainWindow().setTitle(String.format("%s :: %s", MaeStrings.TITLE_PREFIX, getDriver().getTaskName()));
             getTablePanel().prepareAllTables();

@@ -41,7 +41,7 @@ public class MaeMainView extends JFrame {
 
     private WaitLayerUI waitLayer;
 
-    public MaeMainView(JPanel menuBarView, JPanel textPanelView, JPanel statusBarView, JPanel tablePanelView) {
+    public MaeMainView(JPanel menuBarView, JPanel textPanelView, JPanel statusBarView, JPanel tablePanelView, JPanel toolBarView) {
         super(MaeStrings.TITLE_PREFIX);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(new Dimension(900, 500));
@@ -50,6 +50,9 @@ public class MaeMainView extends JFrame {
 
         JPanel top = new JPanel(new BorderLayout());
         JPanel bottom = tablePanelView;
+
+        // ##ES: ToolBar view
+        top.add(toolBarView, BorderLayout.NORTH);
 
         top.add(textPanelView, BorderLayout.CENTER);
         top.add(statusBarView, BorderLayout.SOUTH);
